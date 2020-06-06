@@ -19,7 +19,8 @@ class TwiceDice(object):
         return self.firstDice + self.secondDice
 
     def __str__(self):
-        return "Firstdice: %s, Seconddice: %s" % (str(self.firstDice), str(self.secondDice))
+        return "Firstdice: %s, Seconddice: %s" % \
+               (str(self.firstDice), str(self.secondDice))
 
 
 class Game(object):
@@ -49,20 +50,22 @@ class Game(object):
 
 
 if __name__ == "__main__":
-    norman = Member()
-    kay = Member()
-    norman.setName('Norman')
-    norman.setCash(10000)
-    kay.setName('Kay')
-    kay.setCash(123456)
-    print(norman.__str__())
-    print(kay.__str__())
+    playerA = Member()
+    playerAName = 'Norman'
+    playerACash = 1000
+    playerA.setName(playerAName)
+    playerA.setCash(playerACash)
 
-    diceRoundOne = TwiceDice()
-    diceRoundOne.diceSum()
-    print(diceRoundOne.__str__())
+    playerB = Member()
+    playerBName = 'Kay'
+    playerBCash = 1200
+    playerB.setName(playerBName)
+    playerB.setCash(playerBCash)
 
-    print()
-    gambling = Game()
-    gambling.cashCheck(kay, norman)
-    gambling.randonGame(norman, kay, diceRoundOne)
+    firstGame = Game()
+    firstGame.cashCheck(playerA, playerB)
+
+    FirstRollDice = TwiceDice()
+    FirstRollDice.diceSum()
+    print(FirstRollDice.__str__())
+    firstGame.randonGame(playerA, playerB, FirstRollDice)
