@@ -13,14 +13,21 @@ class Member(object):
 
 
 class TwiceDice(object):
-    def diceSum(self):
-        self.firstDice = randint(1, 6)
-        self.secondDice = randint(1, 6)
+    def eachDice(self, firstDice, secondDice):
+        firstDice = randint(1, 6)
+        secondDice = randint(1, 6)
+        self.firstDice = firstDice
+        self.secondDice = secondDice
+
         return self.firstDice + self.secondDice
 
     def __str__(self):
         return "Firstdice: %s, Seconddice: %s" % \
                (str(self.firstDice), str(self.secondDice))
+
+    def diceSum(self, one, two):
+        return one + two
+
 
 
 class Game(object):
@@ -34,7 +41,7 @@ class Game(object):
         if player01.cash < self.debt or player02.cash < self.debt:
             print("賭注金額不足")
         else:
-            print("賭注金額以確認")
+            print("賭注金額已確認")
 
     def randonGame(self, x, y, dice):
         if dice.diceSum() == 10 or dice.diceSum() == 11 or dice.diceSum() == 12:
@@ -47,6 +54,31 @@ class Game(object):
             y.cash += self.debt
             print("玩家: %s win, 持有金額: %s" % (str(y.name), (y.cash)))
             print("玩家: %s lose, 持有金額: %s" % (str(x.name), (x.cash)))
+
+    def firstPart(self, player01, player02, dice):
+        if dice.diceSum == 7 or dice.diceSum == 11:
+            player01.cash += self.debt
+            player02.cash -= self.debt
+            print("玩家: %s 勝" % player01.name)
+        elif dice.diceSum == 2 or dice.diceSum == 3 or dice.diceSum == 12:
+            player01.cash -= self.debt
+            player02.cash += self.debt
+            print("玩家: %s 勝" % player02.name)
+        else:
+            print("無玩家勝出，進入第二局！")
+
+    def secondPart(self, player01, player02, firstPartDice, dice):
+        if dice.diceSum() == firstPartDice.diceSum():
+            player01.cash += self.debt
+            player02.cash -= self.debt
+            print("玩家: %s 勝" % player01.name)
+        elif dice.diceSum() == 7:
+            player01.cash -= self.debt
+            player02.cash += self.debt
+            print("玩家: %s 勝" % player02.name)
+        else:
+            print("進入第%f局" % partNumber)
+
 
 
 if __name__ == "__main__":
@@ -66,6 +98,14 @@ if __name__ == "__main__":
     firstGame.cashCheck(playerA, playerB)
 
     FirstRollDice = TwiceDice()
-    FirstRollDice.diceSum()
+    FirstRollDice.eachDice()
     print(FirstRollDice.__str__())
-    firstGame.randonGame(playerA, playerB, FirstRollDice)
+    FirstRollDice.diceSum(FirstRollDice.eachDice.firstDice, FirstRollDice.eachDice.secondDice)
+
+    firstGame.firstPart(playerA, playerB, FirstRollDice)
+    if FirstRollDice.diceSum != 7 and FirstRollDice.diceSum != 11 and \
+        FirstRollDice.diceSum != 2 and FirstRollDice.diceSum != 3 and \
+        FirstRollDice.diceSum != 12:
+        print("Go")
+    else:
+        print("x")
