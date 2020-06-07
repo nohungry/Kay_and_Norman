@@ -13,6 +13,7 @@ class Member(object):
 
 
 class TwiceDice(object):
+    # 為什麼這裡需要外部參數帶入呢???  27行 帶入外部參數 firstDice, secondDice
     def eachDice(self, firstDice, secondDice):
         firstDice = randint(1, 6)
         secondDice = randint(1, 6)
