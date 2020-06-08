@@ -13,22 +13,16 @@ class Member(object):
 
 
 class TwiceDice(object):
-    # 為什麼這裡需要外部參數帶入呢???  27行 帶入外部參數 firstDice, secondDice
-    def eachDice(self, firstDice, secondDice):
-        firstDice = randint(1, 6)
-        secondDice = randint(1, 6)
-        self.firstDice = firstDice
-        self.secondDice = secondDice
-
-        return self.firstDice + self.secondDice
+    def eachDice(self):
+        self.firstDice = randint(1, 6)
+        self.secondDice = randint(1, 6)
 
     def __str__(self):
         return "Firstdice: %s, Seconddice: %s" % \
                (str(self.firstDice), str(self.secondDice))
 
-    def diceSum(self, one, two):
-        return one + two
-
+    def diceSum(self):
+        return self.firstDice + self.secondDice
 
 
 class Game(object):
@@ -40,9 +34,9 @@ class Game(object):
         print("player02 cash: ", player02.cash)
 
         if player01.cash < self.debt or player02.cash < self.debt:
-            print("賭注金額不足")
+            print("賭注金額不足，請重新輸入！")
         else:
-            print("賭注金額已確認")
+            print("賭注金額已確認 \n遊戲開始！\n第 1 局")
 
     def randonGame(self, x, y, dice):
         if dice.diceSum() == 10 or dice.diceSum() == 11 or dice.diceSum() == 12:
@@ -57,16 +51,16 @@ class Game(object):
             print("玩家: %s lose, 持有金額: %s" % (str(x.name), (x.cash)))
 
     def firstPart(self, player01, player02, dice):
-        if dice.diceSum == 7 or dice.diceSum == 11:
+        if dice.diceSum() == 7 or dice.diceSum() == 11:
             player01.cash += self.debt
             player02.cash -= self.debt
             print("玩家: %s 勝" % player01.name)
-        elif dice.diceSum == 2 or dice.diceSum == 3 or dice.diceSum == 12:
+        elif dice.diceSum() == 2 or dice.diceSum() == 3 or dice.diceSum() == 12:
             player01.cash -= self.debt
             player02.cash += self.debt
             print("玩家: %s 勝" % player02.name)
         else:
-            print("無玩家勝出，進入第二局！")
+            print("無玩家勝出，進入第 2 局！")
 
     def secondPart(self, player01, player02, firstPartDice, dice):
         if dice.diceSum() == firstPartDice.diceSum():
@@ -78,22 +72,18 @@ class Game(object):
             player02.cash += self.debt
             print("玩家: %s 勝" % player02.name)
         else:
-            print("進入第%f局" % partNumber)
+            print("無玩家勝出，進入第 %s 局!" % num)
 
 
 
 if __name__ == "__main__":
     playerA = Member()
-    playerAName = 'Norman'
-    playerACash = 1000
-    playerA.setName(playerAName)
-    playerA.setCash(playerACash)
+    playerA.setName('Norman')
+    playerA.setCash(1000)
 
     playerB = Member()
-    playerBName = 'Kay'
-    playerBCash = 1200
-    playerB.setName(playerBName)
-    playerB.setCash(playerBCash)
+    playerB.setName('Kay')
+    playerB.setCash(1200)
 
     firstGame = Game()
     firstGame.cashCheck(playerA, playerB)
@@ -101,12 +91,27 @@ if __name__ == "__main__":
     FirstRollDice = TwiceDice()
     FirstRollDice.eachDice()
     print(FirstRollDice.__str__())
-    FirstRollDice.diceSum(FirstRollDice.eachDice.firstDice, FirstRollDice.eachDice.secondDice)
+    FirstRollDice.diceSum()
+
 
     firstGame.firstPart(playerA, playerB, FirstRollDice)
-    if FirstRollDice.diceSum != 7 and FirstRollDice.diceSum != 11 and \
-        FirstRollDice.diceSum != 2 and FirstRollDice.diceSum != 3 and \
-        FirstRollDice.diceSum != 12:
-        print("Go")
+    if any(FirstRollDice.diceSum() == diceSum \
+                for diceSum in (7, 11, 2, 3, 12)):
+        pass
     else:
-        print("x")
+        num = 2
+        go = True
+        while go == True:
+            num += 1
+            newRollDice = "SecondRollDice" + str(num)
+            newRollDice = TwiceDice()
+            newRollDice.eachDice()
+            print(newRollDice.__str__())
+            newRollDice.diceSum()
+            firstGame.secondPart(playerA, playerB, FirstRollDice, newRollDice)
+            if any(newRollDice.diceSum() == diceSum \
+                   for diceSum in (FirstRollDice.diceSum(), 7)):
+                # go = False
+                break
+            else:
+                go = True
