@@ -27,8 +27,33 @@ class Norman():
     def mocation(self):
         pass
 
+    def test(self):
+        return self.time
+
+class Kay():
+    def atHome(self, clothing, mood, time, doing=0):
+        self.clothing = clothing
+        self.mood = mood
+        if doing == 0:
+            pass
+        return "It's %s o'clock. Kay put on a %s, and looked %s." \
+            % (str(time), self.clothing, self.mood)
+
+    def outside(self, location, spendmoney=250):
+        return "Kay is wearing %s now. She looks %s because she is waiting for Norman at %s.\
+        Kay is hungry now so she spends $%s for her lunch." \
+               % (self.clothing, self.mood, location, spendmoney)
+
 
 if __name__ == "__main__":
     norman = Norman()
     print(norman.toDo("10: 00", action=1))
     print(norman.toDo("11: 00", action=1))
+    print(norman.test())
+
+    kay = Kay()
+    print(kay.atHome("dress", "happy", 10, 1))
+    print(kay.outside("Breeze Nan Shan"))
+
+
+
