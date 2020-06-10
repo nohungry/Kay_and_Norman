@@ -30,30 +30,50 @@ class Norman():
     def test(self):
         return self.time
 
-class Kay():
-    def atHome(self, clothing, mood, time, doing=0):
-        self.clothing = clothing
-        self.mood = mood
-        if doing == 0:
-            pass
-        return "It's %s o'clock. Kay put on a %s, and looked %s." \
-            % (str(time), self.clothing, self.mood)
+class Activity():
+    def who(self, name, sex="Female"):
+        self.name = name
+        self.sex = sex
+        return self.name, sex
 
-    def outside(self, location, spendmoney=250):
-        return "Kay is wearing %s now. She looks %s because she is waiting for Norman at %s.\
-        Kay is hungry now so she spends $%s for her lunch." \
-               % (self.clothing, self.mood, location, spendmoney)
+    def where(self, location, district, weather):
+        self.location = location
+        return "It is %s in %s." % (weather, district)
+
+    def when(self, time=14):
+        self.time = time
+
+    def what(self):
+        if self.sex == "Female":
+            if self.time >= 9 and self.time < 13:
+                return "%s is having brunch at %s." % (self.name, self.location)
+            elif self.time >= 13 and self.time < 17:
+                return "%s is having afternoon tea at %s." % (self.name, self.location)
+            else:
+                return "%s is sleeping at %s." % (self.name, self.location)
+        elif self.sex == "Male":
+            return "%s is at %s at %s." % (self.name, self.location, str(self.time))
+
 
 
 if __name__ == "__main__":
-    norman = Norman()
-    print(norman.toDo("10: 00", action=1))
-    print(norman.toDo("11: 00", action=1))
-    print(norman.test())
+    # norman = Norman()
+    # print(norman.toDo("10: 00", action=1))
+    # print(norman.toDo("11: 00", action=1))
+    # print(norman.test())
 
-    kay = Kay()
-    print(kay.atHome("dress", "happy", 10, 1))
-    print(kay.outside("Breeze Nan Shan"))
+    kay = Activity()
+    kay.who("Kay")
+    kay.where("agnès b.", "Xinyi District", "sunny")
+    kay.when()
+    print(kay.what())
+
+    norman = Activity()
+    norman.who("Norman", "Male")
+    norman.where("天堂 office", "Xinyi District", "sunny")
+    norman.when("noon")
+    print(norman.what())
+
 
 
 
