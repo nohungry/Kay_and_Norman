@@ -25,12 +25,5 @@ class EtcData:
         vdAuthorityCodeList = vdTree.findall(
             "xmlns:AuthorityCode", namespaces=namespaces)  # 業管機關簡碼
 
-        for index in vdAuthorityCodeList:
-            print(type(index.text))
-            print(index.text)
-        pass
-
-
-if __name__ == "__main__":
-    test = EtcData()
-    test.vdStaticData()
+        vdVDIDList = vdTree.findall(
+            "xmlns:AuthorityCode", namespaces=namespaces)  #
