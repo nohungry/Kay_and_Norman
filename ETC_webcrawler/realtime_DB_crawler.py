@@ -26,4 +26,13 @@ class EtcData:
             "xmlns:AuthorityCode", namespaces=namespaces)  # 業管機關簡碼
 
         vdVDIDList = vdTree.findall(
-            "xmlns:AuthorityCode", namespaces=namespaces)  #
+            "xmlns:VDs/xmlns:VD/xmlns:VDID", namespaces=namespaces)  # VD設備代碼
+
+        vdSubAuthorityCode = vdTree.findall(
+            "xmlns:VDs/xmlns:VD/xmlns:SubAuthorityCode", namespaces=namespaces)  # 業管子機關簡碼
+
+
+# Testing code
+if __name__ == "__main__":
+    vdTest = EtcData()
+    vdTest.vdStaticData()
