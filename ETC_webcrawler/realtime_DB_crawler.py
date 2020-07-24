@@ -82,6 +82,30 @@ class EtcData:
         vdLocationMileList = vdTree.findall(
             "xmlns:VDs/xmlns:VD/xmlns:LocationMile", namespaces=namespaces)  # 所在方向里程數
 
+    def vdStaticData(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/ETagPair.xml", verify=False):
+        """
+
+        """
+        url = str(url)
+        verify = verify
+        namespaces = {
+            "xmlns": "http://traffic.transportdata.tw/standard/traffic/schema/"}
+        etagPairCrawler = requests.get(
+            url, headers=self.headers, verify=verify)
+        etagPairContent = etagPairCrawler.content
+        etagPairContentBytes = BytesIO(etagPairContent)
+        etagTree = ET.parse(etagPairContentBytes)
+
+        # 下面資料皆回傳"list"
+        etagETagPairID = etagTree.findall(
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:ETagPairID", namespaces=namespaces)
+
+        etagStartETagGantryID = etagTree.findall(
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:StartETagGantryID", namespaces=namespaces)
+
+        etagEndETagGantryID = etagTree.findall(
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:EndETagGantryID", namespaces=namespaces)
+
 
 # Testing code
 if __name__ == "__main__":
