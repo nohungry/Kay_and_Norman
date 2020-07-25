@@ -175,6 +175,53 @@ class EtcData:
         """
         提供CMS之空間位置描述及其他相關欄位
         """
+        url = str(url)
+        verify = verify
+        namespaces = {
+            "xmlns": "http://traffic.transportdata.tw/standard/traffic/schema/"}
+        cmsCrawler = requests.get(url, headers=self.headers, verify=verify)
+        cmsContent = cmsCrawler.content
+        cmsContentBytes = BytesIO(cmsContent)
+        cmsTree = ET.parse(cmsContentBytes)
+
+        cmsIDList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:CMSID", namespaces=namespaces)
+
+        subAuthorityCodeList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:SubAuthorityCode", namespaces=namespaces)
+
+        linkIDList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:LinkID", namespaces=namespaces)
+
+        locationTypeList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:LocationType", namespaces=namespaces)
+
+        positionLonList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:PositionLon", namespaces=namespaces)
+
+        positionLatList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:PositionLat", amespaces=namespaces)
+
+        roadIDList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:RoadID", amespaces=namespaces)
+
+        roadNameList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:RoadName", amespaces=namespaces)
+
+        roadClassList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:RoadClass", amespaces=namespaces)
+
+        roaddirectionList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:RoadDirection", amespaces=namespaces)
+
+        startList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:RoadSection/xmlns:Start", amespaces=namespaces)
+
+        endList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:RoadSection/xmlns:End", amespaces=namespaces)
+
+        locationMileList = cmsTree.findall(
+            "xmlns:CMSs/xmlns:CMS/xmlns:LocationMile", amespaces=namespaces)
 
 
 # Testing code
