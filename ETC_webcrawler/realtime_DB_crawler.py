@@ -147,6 +147,35 @@ class EtcData:
         locationTypeList = etagTree.findall(
             "xmlns:ETags/xmlns:ETag/xmlns:LocationType", namespaces=namespaces)
 
+        positionLonList = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:PositionLon", namespaces=namespaces)
+
+        positionLatList = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:PositionLat", namespaces=namespaces)
+
+        roadIDList = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadID", namespaces=namespaces)
+
+        roadNameList = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadName", namespaces=namespaces)
+
+        roadDirectionList = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadDirection", namespaces=namespaces)
+
+        roadSectionStart = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadSection/xmlns:Start", namespaces=namespaces)
+
+        roadSectionEnd = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadSection/xmlns:End", namespaces=namespaces)
+
+        locationMileList = etagTree.findall(
+            "xmlns:ETags/xmlns:ETag/xmlns:LocationMile", namespaces=namespaces)
+
+    def cmsStaticData(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/CMS.xml", verify=False):
+        """
+        提供CMS之空間位置描述及其他相關欄位
+        """
+
 
 # Testing code
 if __name__ == "__main__":
