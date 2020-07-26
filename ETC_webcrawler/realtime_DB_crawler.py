@@ -223,6 +223,61 @@ class EtcData:
         locationMileList = cmsTree.findall(
             "xmlns:CMSs/xmlns:CMS/xmlns:LocationMile", amespaces=namespaces)
 
+    def cctvStaticData(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/CCTV.xml", verify=False):
+        """
+        提供CCTV之空間位置描述及其他相關欄位
+        """
+        url = str(url)
+        verify = verify
+        namespaces = {
+            "xmlns": "http://traffic.transportdata.tw/standard/traffic/schema/"}
+        cctvCrawler = requests.get(url, headers=self.headers, verify=verify)
+        cctvContent = cctvCrawler.content
+        cctvContentBytes = BytesIO(cctvContent)
+        cctvTree = ET.parse(cctvContentBytes)
+
+        cctvIDList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:CCTVID", namespaces=namespaces)
+
+        subAuthorityCodeList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:SubAuthorityCode", namespaces=namespaces)
+
+        linkIDList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:LinkID", namespaces=namespaces)
+
+        videoStreamURLList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:VideoStreamURL", namespaces=namespaces)
+
+        locationType = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:LocationType", namespaces=namespaces)
+
+        positionLon = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:PositionLon", namespaces=namespaces)
+
+        positionLat = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:PositionLat", namespaces=namespaces)
+
+        roadIDList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:RoadID", namespaces=namespaces)
+
+        roadNameList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:RoadName", namespaces=namespaces)
+
+        roadClassList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:RoadClass", namespaces=namespaces)
+
+        roadDirectionList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:RoadDirection", namespaces=namespaces)
+
+        startList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:RoadSection/xmlns:Start", namespaces=namespaces)
+
+        endList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:RoadSection/xmlns:End", namespaces=namespaces)
+
+        locationMileList = cctvTree.findall(
+            "xmlns:CCTVs/xmlns:CCTV/xmlns:LocationMile", namespaces=namespaces)
+
 
 # Testing code
 if __name__ == "__main__":
