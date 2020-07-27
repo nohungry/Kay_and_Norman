@@ -292,7 +292,12 @@ class EtcData:
         sectionTree = ET.parse(sectionContentBytes)
 
         sectionIDList = sectionTree.findall(
-            "xmlns:SectionShapes/xmlns:SectionShape/xmlns:SectionID")
+            "xmlns:SectionShapes/xmlns:SectionShape/xmlns:SectionID", namespaces=namespaces)
+
+        geometryList = sectionTree.findall(
+            "xmlns:SectionShapes/xmlns:SectionShape/xmlns:SectionID", namespaces=namespaces)
+
+    def
 
 
 # Testing code
