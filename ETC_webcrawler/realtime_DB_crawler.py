@@ -278,6 +278,22 @@ class EtcData:
         locationMileList = cctvTree.findall(
             "xmlns:CCTVs/xmlns:CCTV/xmlns:LocationMile", namespaces=namespaces)
 
+    def sectionShapeGraph(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/SectionShape.xml", verify=False):
+        """
+        機關發布路段線型圖資資訊(v2.0)
+        """
+        url = str(url)
+        verify = verify
+        namespaces = {
+            "xmlns": "http://traffic.transportdata.tw/standard/traffic/schema/"}
+        sectionCrawler = requests.get(url, headers=self.headers, verify=verify)
+        sectionContent = sectionCrawler.content
+        sectionContentBytes = BytesIO(sectionContent)
+        sectionTree = ET.parse(sectionContentBytes)
+
+        sectionIDList = sectionTree.findall(
+            "xmlns:SectionShapes/xmlns:SectionShape/xmlns:SectionID")
+
 
 # Testing code
 if __name__ == "__main__":
