@@ -297,7 +297,20 @@ class EtcData:
         geometryList = sectionTree.findall(
             "xmlns:SectionShapes/xmlns:SectionShape/xmlns:SectionID", namespaces=namespaces)
 
-    def
+    def sectionShapeGraph(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/SectionLink.xml", verify=False):
+        """
+        提供機關發布路段與基礎路段組合對應資訊(v2.0)
+        """
+        url = str(url)
+        verify = verify
+        namespaces = {
+            "xmlns": "http://traffic.transportdata.tw/standard/traffic/schema/"}
+        sectionCrawler = requests.get(url, headers=self.headers, verify=verify)
+        sectionContent = sectionCrawler.content
+        sectionContentBytes = BytesIO(sectionContent)
+        sectionTree = ET.parse(sectionContentBytes)
+
+        sectionIDList = sectionTree.findall()
 
 
 # Testing code
