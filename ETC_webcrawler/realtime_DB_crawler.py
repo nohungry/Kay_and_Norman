@@ -310,11 +310,14 @@ class EtcData:
         sectionContentBytes = BytesIO(sectionContent)
         sectionTree = ET.parse(sectionContentBytes)
 
-        sectionIDList = sectionTree.findall("xmlns:SectionLinks/xmlns:SectionLink/xmlns:SectionID", namespaces=namespaces)
+        sectionIDList = sectionTree.findall(
+            "xmlns:SectionLinks/xmlns:SectionLink/xmlns:SectionID", namespaces=namespaces)
 
-        startLinkIDList = sectionTree.findall("xmlns:SectionLinks/xmlns:SectionLink/xmlns:StartLinkID", namespaces=namespaces)
+        startLinkIDList = sectionTree.findall(
+            "xmlns:SectionLinks/xmlns:SectionLink/xmlns:StartLinkID", namespaces=namespaces)
 
-        endLinkIDList = sectionTree.findall("xmlns:SectionLinks/xmlns:SectionLink/xmlns:EndLinkID", namespaces=namespaces)
+        endLinkIDList = sectionTree.findall(
+            "xmlns:SectionLinks/xmlns:SectionLink/xmlns:EndLinkID", namespaces=namespaces)
 
     def section(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/Section.xml", verify=False):
         """
@@ -329,31 +332,76 @@ class EtcData:
         sectionContentBytes = BytesIO(sectionContent)
         sectionTree = ET.parse(sectionContentBytes)
 
-        sectionIDList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:SectionID", namespaces=namespaces)
-        
-        sectionNameList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:SectionName", namespaces=namespaces)
+        sectionIDList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:SectionID", namespaces=namespaces)
 
-        roadIDList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:RoadID", namespaces=namespaces)
+        sectionNameList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:SectionName", namespaces=namespaces)
 
-        roadNameList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:RoadName", namespaces=namespaces)
+        roadIDList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:RoadID", namespaces=namespaces)
 
-        roadClassList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:RoadClass", namespaces=namespaces)
+        roadNameList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:RoadName", namespaces=namespaces)
 
-        roadDirectionList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:RoadDirection", namespaces=namespaces)
+        roadClassList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:RoadClass", namespaces=namespaces)
 
-        startList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:RoadSection/xmlns:Start", namespaces=namespaces)
+        roadDirectionList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:RoadDirection", namespaces=namespaces)
 
-        endList = sectionTree.finall("xmlns:Sections/xmlns:Section/xmlns:RoadSection/xmlns:End", namespaces=namespaces)
-        
-        sectionLengthList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:SectionLength", namespaces=namespaces)
-        
-        startKMList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:SectionMile/xmlns:StartKM", namespaces=namespaces)
+        startList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:RoadSection/xmlns:Start", namespaces=namespaces)
 
-        endKMList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:SectionMile/xmlns:EndKM", namespaces=namespaces)
+        endList = sectionTree.finall(
+            "xmlns:Sections/xmlns:Section/xmlns:RoadSection/xmlns:End", namespaces=namespaces)
 
-        speedLimitList = sectionTree.findall("xmlns:Sections/xmlns:Section/xmlns:SpeedLimit", namespaces=namespaces)
+        sectionLengthList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:SectionLength", namespaces=namespaces)
 
-    
+        startKMList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:SectionMile/xmlns:StartKM", namespaces=namespaces)
+
+        endKMList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:SectionMile/xmlns:EndKM", namespaces=namespaces)
+
+        speedLimitList = sectionTree.findall(
+            "xmlns:Sections/xmlns:Section/xmlns:SpeedLimit", namespaces=namespaces)
+
+    def congestionLevelList(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/CongestionLevel.xml", verify=False):
+        """
+        提供機關路況壅塞水準定義基本資訊(v2.0)
+        """
+        url = str(url)
+        verify = verify
+        namespaces = {
+            "xmlns": "http://traffic.transportdata.tw/standard/traffic/schema/"}
+        congestionCrawler = requests.get(
+            url, headers=self.headers, verify=verify)
+        congestionContent = congestionCrawler.content
+        congestionContentBytes = BytesIO(congestionContent)
+        congestionTree = ET.parse(congestionContentBytes)
+
+        congestionLevelIDList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:CongestionLevelID", namespaces=namespaces)
+
+        congestionLevelNameList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:CongestionLevelName", namespaces=namespaces)
+
+        measureIndexList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:MeasureIndex", namespaces=namespaces)
+
+        levelList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:Levels/xmlns:Level/xmlns:Level", namespaces=namespaces)
+
+        levelNameList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:Levels/xmlns:Level/xmlns:LevelName", namespaces=namespaces)
+
+        topValueList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:Levels/xmlns:Level/xmlns:TopValue", namespaces=namespaces)
+
+        lowValueList = congestionTree.findall(
+            "xmlns:CongestionLevels/xmlns:CongestionLevel/xmlns:Levels/xmlns:Level/xmlns:LowValue", namespaces=namespaces)
 
 
 # Testing code
