@@ -98,31 +98,29 @@ class EtcData:
 
         # 下面資料皆回傳"list"
         etagPairIDList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:ETagPairID", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:ETagPairID", namespaces=namespaces) # etag配對路徑代碼
 
         startETagGantryIDList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:StartETagGantryID", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:StartETagGantryID", namespaces=namespaces) # etag配對起始點偵測站代碼
 
         endETagGantryIDList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:EndETagGantryID", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:EndETagGantryID", namespaces=namespaces) # eTag配對結束點偵測站代碼
 
         descriptionList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Description", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Description", namespaces=namespaces) # 配對路徑文字描述
 
         distanceList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Distance", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Distance", namespaces=namespaces) # 配對路徑距離, GIS提供的配對路徑距離(KM), 可到小數點3位
 
         startLinkIDList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:StartLinkID", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:StartLinkID", namespaces=namespaces) # 起點基礎路段代碼, 請參閱[基礎路段代碼表]，https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao
 
         endLinkIDList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:EndLinkID", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:EndLinkID", namespaces=namespaces) # 迄點基礎路段代碼, 請參閱[基礎路段代碼表]，https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao
 
         geometryList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Geometry", namespaces=namespaces)
+            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Geometry", namespaces=namespaces) # 配對路徑線型圖資資料, 格式為WKT
 
-        geometryList = etagTree.findall(
-            "xmlns:ETagPairs/xmlns:ETagPair/xmlns:Geometry", namespaces=namespaces)
 
     def eTagPlaceStaticData(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/ETag.xml", verify=False):
         """
@@ -139,37 +137,39 @@ class EtcData:
         etagTree = ET.parse(etagPlaceContentBytes)
 
         eTagGantryIDList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:ETagGantryID", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:ETagGantryID", namespaces=namespaces) # eTag偵測站代碼
 
         linkIDList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:LinkID", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:LinkID", namespaces=namespaces) # 基礎路段代碼, 請參閱[基礎路段代碼表]，https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao
 
         locationTypeList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:LocationType", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:LocationType", namespaces=namespaces) # 設置地點位置類型 = ['1: 路側', '2: 道路中央分隔島', '3: 快慢分隔島', '4: 車道上門架', '5: 車道鋪面', '6: 其他']
 
         positionLonList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:PositionLon", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:PositionLon", namespaces=namespaces) # 設備架設位置 X 坐標
 
         positionLatList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:PositionLat", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:PositionLat", namespaces=namespaces) # 設備架設位置 Y 坐標
 
         roadIDList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:RoadID", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadID", namespaces=namespaces) # 道路代碼, 請參閱[路名碼基本資料]，https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao
 
         roadNameList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:RoadName", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadName", namespaces=namespaces) # 道路名稱
+
+        roadClassList = etagTree.findall("xmlns:ETags/xmlns:ETag/xmlns:RoadClass", namespaces=namespaces) # 道路分類 = ['0: 國道', '1: 快速道路', '2: 市區快速道路', '3: 省道', '4: 縣道', '5: 鄉道', '6: 市區一般道路', '7: 匝道']
 
         roadDirectionList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:RoadDirection", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadDirection", namespaces=namespaces) # 基礎路段所屬道路方向, 請參閱[道路方向資料表]，https://traffic-api-documentation.gitbook.io/traffic/xiang-dai-zhao-biao
 
         roadSectionStart = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:RoadSection/xmlns:Start", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadSection/xmlns:Start", namespaces=namespaces) # 路段起點描述
 
         roadSectionEnd = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:RoadSection/xmlns:End", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:RoadSection/xmlns:End", namespaces=namespaces) # 路段迄點描述
 
         locationMileList = etagTree.findall(
-            "xmlns:ETags/xmlns:ETag/xmlns:LocationMile", namespaces=namespaces)
+            "xmlns:ETags/xmlns:ETag/xmlns:LocationMile", namespaces=namespaces) # 所在方向里程數
 
     def cmsStaticData(self, url="https://tisvcloud.freeway.gov.tw/history/motc20/CMS.xml", verify=False):
         """
