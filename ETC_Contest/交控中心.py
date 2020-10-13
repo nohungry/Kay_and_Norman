@@ -5,16 +5,15 @@ from datetime import datetime
 
 
 class ControlCenter():
-    def __init__(self, title, path):
+    def __init__(self, title, path, sheet):
         self.title = title
-        self.path = path
-        self.df_TrafficControl = pd.read_excel(self.path)
+        self.df_TrafficControl = pd.read_excel(path, sheet_name=sheet)
         self.dataLength = len(self.df_TrafficControl['簡訊內容'])
 
     def data(self):
         content = []
         for i in range(self.dataLength):
-            content.append(re.findall(r'.*通報\d級', self.df_TrafficControl['簡訊內容'][i]))
+            content.append(re.findall(r'.*通報.*\d級', self.df_TrafficControl['簡訊內容'][i]))
         content = ([j for con in content for j in con])
         self.df_TrafficControl['通報級數'] = pd.Series(content)
 
@@ -22,9 +21,10 @@ class ControlCenter():
         startTime = []
         endTime = []
         for i in range(self.dataLength):
-            smsDate.append(re.findall(r'\d\d/\d\d', self.df_TrafficControl['簡訊內容'][i]))
+            smsDate.append(re.findall(r'\d\d/\d{1,2}', self.df_TrafficControl['簡訊內容'][i]))
             startTime.append(re.findall(r'\d\d:\d\d', self.df_TrafficControl['簡訊內容'][i])[0])
             endTime.append(re.findall(r'\d\d:\d\d', self.df_TrafficControl['簡訊內容'][i])[-1])
+            endTime[i] = endTime[i].replace("24:00", "00:00")
         smsDate = ([j for sms in smsDate for j in sms])
         self.df_TrafficControl['簡訊日期'] = pd.Series(smsDate)
         self.df_TrafficControl['簡訊時間'] = pd.Series(startTime)
@@ -90,12 +90,30 @@ class ControlCenter():
 
 
 if __name__ == '__main__':
-    North = ControlCenter('North', "/Users/kayzhang/Downloads/第6屆ETC創意競賽資料/108年高公局所轄各分局事故簡訊資料/108年_北區交控中心.xlsx")
-    South = ControlCenter('South', "/Users/kayzhang/Downloads/第6屆ETC創意競賽資料/108年高公局所轄各分局事故簡訊資料/108年_南區交控中心.xlsx")
-
-    # print(A.data())
+    # North = ControlCenter('North', "/Users/kayzhang/Downloads/第6屆ETC創意競賽資料/108年高公局所轄各分局事故簡訊資料/108年_北區交控中心.xlsx", 0)
+    # South = ControlCenter('South', "/Users/kayzhang/Downloads/第6屆ETC創意競賽資料/108年高公局所轄各分局事故簡訊資料/108年_南區交控中心.xlsx", 0)
+    Pinglin = []
+    for i in range(11):
+        Pinglin.append(ControlCenter('Pinglin', "/Users/kayzhang/Downloads/第6屆ETC創意競賽資料/108年高公局所轄各分局事故簡訊資料/108年_坪林行控中心.xlsx", i))
+        Pinglin[i] = Pinglin[i].data()
+    # print(North.data())
     # print(B.data())
     # print(B.data().iloc[350:370, :])
-    res = pd.concat([North.data(), South.data()], axis=0, ignore_index=True)
+    res = pd.concat(Pinglin, axis=0, ignore_index=True)
+    # res = pd.concat([North.data(), South.data()], axis=0, ignore_index=True)
+    pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
     print(res)
+    for a in res:
+        # 跳過我們沒興趣的顧客
+        if re.findall(r'-1 day.*', a['處理耗時']):
+            continue
+        # 利用 custkey 取德該顧客的購買紀錄
+        c_orders = orders[c['custkey']]
+
+        # 將所有排序後的記錄回傳
+        for o in c_orders_sorted:
+            values = [c['name'], str(o['totalprice']), str(o['orderdate'])]
+            print(" | ".join(values))
+        # 已經找到該顧客，提早結束迴圈以減少處理時間
+        break
