@@ -56,6 +56,29 @@ import requests
 #             companyLinkList.append(companyLink)
 
 
+def companyDetailInfo(data):
+    for keyOne, valueOne in data.items():
+        for keyTwo, valueTwo in valueOne.items():
+            for keyThree, valueThree in valueTwo.items():
+                res = requests.get(valueThree, headers=headers)
+                originHTML = etree.HTML(res.text)  # 原始HTML文件
+                companyName = originHTML.xpath("//span[contains(@class, 'company-top')]/text()")[0].split()
+                companyPhone = originHTML.xpath("//tr[2]//td[contains(@class, 'list_td')][2]/text()")[0].split()
+                companyFax = originHTML.xpath("//tr[2]//td[contains(@class, 'list_td')][4]/text()")[0].split()
+                companyAddress = originHTML.xpath("//tr[3]//td[contains(@class, 'list_td')][2]/text()")[0].split()
+                factoryPhone = originHTML.xpath("//tr[4]//td[contains(@class, 'list_td')][2]/text()")[0].split()
+                factoryFax = originHTML.xpath("//tr[4]//td[contains(@class, 'list_td')][4]//font/text()")[0].split()
+                factoryAddress = originHTML.xpath("//tr[5]//td[contains(@class, 'list_td')][2]/text()")[0].split()
+                website = originHTML.xpath("//tr[6]//td[contains(@class, 'list_td')][2]//a/@href")[0].split()
+                capital = originHTML.xpath("//tr[6]//td[contains(@class, 'list_td')][4]/text()")[0].split()
+                email = originHTML.xpath("//tr[7]//td[contains(@class, 'list_td')][2]//a/text()")[0].split()
+                employeeNumber = originHTML.xpath("//tr[7]//td[contains(@class, 'list_td')][4]/text()")[0].split()
+                products = originHTML.xpath("//tr[8]//td[contains(@class, 'list_td')][2]/text()")[0].split()
+                try:
+                    print(companyName, companyPhone, companyFax, companyAddress, factoryPhone, factoryFax, factoryAddress, website, capital, email, employeeNumber, products)
+                except:
+                    print('No data.')
+
 
 if __name__ == "__main__":
     headers = {
@@ -74,8 +97,6 @@ if __name__ == "__main__":
         categoryOneLink = "http://www.tami.org.tw/category/" + categoryOneLink
         categoryOneLinkList.append(categoryOneLink)
         linkList[index] = categoryOneLink
-    print(linkList)
-    print('-----------')
 
 
     # 產品分類第二層
@@ -100,16 +121,17 @@ if __name__ == "__main__":
             resThree = requests.get(categoryTwoLinkList[indexTwo], headers=headers)
             contentThree = resThree.content.decode()
             originHTML = etree.HTML(contentThree)  # 原始HTML文件
-            companyName = originHTML.xpath("//a[@class='company-word3']")  # 產品分類
+            companysName = originHTML.xpath("//a[@class='company-word3']")  # 產品分類
 
-            companyNameLinkList = []  # 產品分類URL列表
-            for indexThree in range(len(companyName)):
-                companyNameLink = companyName[indexThree].get("onclick")
-                companyNameLinkpart = re.findall(r"\w?\d+", companyNameLink)[0]
-                companyNameLink = "http://www.tami.org.tw/category/contact_2.php?ms=" + companyNameLinkpart + "&on=1"
-                companyNameLinkList.append(companyNameLink)
-                linkList[indexOne][indexTwo][indexThree] = companyNameLink
+            companysNameLinkList = []  # 產品分類URL列表
+            for indexThree in range(len(companysName)):
+                companysNameLink = companysName[indexThree].get("onclick")
+                companysNameLinkpart = re.findall(r"\w?\d+", companysNameLink)[0]
+                companysNameLink = "http://www.tami.org.tw/category/contact_2.php?ms=" + companysNameLinkpart + "&on=1"
+                companysNameLinkList.append(companysNameLink)
+                linkList[indexOne][indexTwo][indexThree] = companysNameLink
 
-                
-    print(linkList[0][0][0])
-    print('-----------')
+
+    print('------start------')
+    companyDetailInfo(linkList)
+    print('------end------')
