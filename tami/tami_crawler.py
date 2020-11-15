@@ -10,7 +10,7 @@ from lxml import etree
 def writeIntoDatabase(data):
     conn = pymysql.connect(host='localhost',
                             user='root',
-                            password='kay121128',
+                            password='test',
                             port=3306,                       
                             db='tami',
                             charset='utf8mb4',
